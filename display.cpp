@@ -19,7 +19,7 @@ int Display::getCurrentPage(){
     return this->currentIndex();
 }
 void Display::goToPage(int page){
-    previousPage = this->getCurrentPage();
+    previousPage = this->getCurrentPage() == powerPage?previousPage:this->getCurrentPage();
     this->setCurrentIndex(page);
 }
 void Display::initializePages(QVector<std::string> programVecor,QVector<std::string> frequencyVector){
@@ -56,11 +56,11 @@ void Display::initializePages(QVector<std::string> programVecor,QVector<std::str
 
     this->findChild<QProgressBar*>("powerPageBar")->setValue(0);
 
-    QListWidget *historyList = this->findChild<QListWidget*>("HistoryWidget");
+    QListWidget *historyList = this->findChild<QListWidget*>("historyWidget");
 //    historyList->clear();
     qDebug()<<"historylist is null or not?"<< (historyList==nullptr?"yes":"no");
 
-    historyList->addItem(new MyListWidgetItem("View"));
+    historyList->addItem(new MyListWidgetItem("View",historyListPage));
     historyList->addItem(new MyListWidgetItem("Clear"));
 
 
@@ -154,4 +154,13 @@ void Display::backToPreviousPage(){
     changePage(previousPage);
 }
 
+void Display::addHistory(QVector<therapy> historyVector){
+    QListWidget *historyListWidget = this->findChild<QListWidget*>("historyListWidget");
+    historyListWidget->clear();
+    foreach( therapy t,historyVector){
+        QString res = t.date +QString(" \n Treatment: ")+ t.treatment
+                +QString(" \n power level:")+ t.powerlvl + QString(" \n duration:")+t.duration;
+        historyListWidget->addItem(res);
+    }
+}
 

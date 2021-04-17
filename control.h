@@ -12,12 +12,7 @@
 #include "mytimer.h"
 #include <QDateTime>
 
-struct therapy{
-    QString date;
-    QString treatment;
-    QString powerlvl;
-    QString duration;
-};
+
 
 class Control :public QObject,public Observer
 {
@@ -27,16 +22,14 @@ public:
     Control();
     void setBars(QSlider* pb,QSlider* bb,QSlider* fb);
     void setDisplay(Display* d);
-     void setInitPage(int);
+
      void makeRecord(QString time);
 
 public slots:
     virtual void update(int type, int id) override;
 
     void changeBetteryLevel();
-    void powerToLabel(int value);
-    void batteryToLabel(int value);
-    void frequencyToLabel(int value);
+
     void battchange();
 private:
     void handleButtonRequests(int type, int id);
@@ -54,7 +47,7 @@ private:
     QSlider *frequencyBar;
 
     MyTimer *countDownTimer;
-    QDateTime *dateTime;
+    QTimer *singleShotTimer;
 
 
     QLabel *batteryScreen;
@@ -64,7 +57,7 @@ private:
 
 
     int batt=100;
-    int frequency;
+
     int powerlvl=1;
     bool power;
     bool ready=false;

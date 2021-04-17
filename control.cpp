@@ -11,10 +11,11 @@
 
 Control::Control():Observer()
 {
-    power = false;
-//    lastPage = 0;
+
     countDownTimer = new MyTimer();
-    dateTime = new QDateTime();
+    singleShotTimer = new QTimer();
+    singleShotTimer->setSingleShot(true);
+
     programVecor.append("Gyn. Pain");
     programVecor.append("Gynecology");
     programVecor.append("Head");
@@ -31,9 +32,6 @@ void Control::setBars(QSlider* pb,QSlider* bb,QSlider* fb){
     this->powerBar = pb;
     this->batteryBar = bb;
     this->frequencyBar = fb;
-    connect(batteryBar, SIGNAL(valueChanged(int)),this,SLOT(batteryToLabel(int)));
-    connect(powerBar, SIGNAL(valueChanged(int)),this,SLOT(powerToLabel(int)));
-    connect(frequencyBar, SIGNAL(valueChanged(int)),this,SLOT(frequencyToLabel(int)));
 
 }
 
@@ -44,12 +42,17 @@ void Control::setDisplay(Display* d){
     display->initializePages(programVecor,frequencyVector);
     connect(countDownTimer,&MyTimer::oneSecPassedReverse,display,&Display::startCountDown);
     connect(countDownTimer,&MyTimer::oneSecPassed,display,&Display::startCountUp);
+    connect(singleShotTimer,&QTimer::timeout,display,&Display::backToPreviousPage);
 
 }
 void Control::makeRecord(QString duration){
     struct therapy t;
 
-    t.date = dateTime->toString("ddd MMMM d yy");
+    QDateTime date = QDateTime::currentDateTime();
+    QString formattedTime = date.toString("ddd MMMM d yy");
+
+
+    t.date = formattedTime;
     t.duration = duration;
     t.powerlvl = QString().setNum(powerlvl);
     int page = display->getCurrentPage();
@@ -63,43 +66,12 @@ void Control::makeRecord(QString duration){
     }
 
     historyVector.append(t);
-
-
+    display->addHistory(historyVector);
 
 
 
 }
 
-void Control::batteryToLabel(int value){
-
-
-
-
-
-        QString str;
-        str.setNum(value);
-        str="                                 Battery: "+str+"%";
-        this->batteryScreen->setText(str);
-        batt=value;
-
-}
-
-void Control::powerToLabel(int value){
-
-    QString str;
-    str.setNum(value);
-    str="PowerLevel: "+str;
-
-    powerlvl=value;
-
-}
-void Control::frequencyToLabel(int value){
-QString str;
-str.setNum(value);
-str="Frequency: "+str;
-this->frequencyScreen->setText(str);
-frequency=value;
-}
 
 void Control::battchange(){
     batteryBar->setValue(batt);
@@ -110,10 +82,7 @@ void Control::update(int type,int id){
     qDebug()<< "this is just a test :"<<type << id;
     handleButtonRequests(type,id);
 }
-void Control::setInitPage(int value){
-    display->setCurrentIndex(0);
-    qInfo()<<value;
-}
+
 
 
 //@input int type is the type of buttons, int id is the id of the button
@@ -157,10 +126,15 @@ void Control::handlePowerButton(){
     else if(power){
         power=false;
         display->changePage(powerOffScreen);
+        historyVector.clear();
+        display->addHistory(historyVector);
 
     }
 }
 void Control::handleDirectionalButton(int id){
+    if(!power){
+        return;
+    }
 
     if(id==upButton||id == downButton){
         display->changeSelection(id == upButton);
@@ -170,16 +144,24 @@ void Control::handleDirectionalButton(int id){
         powerlvl = display->changePower(id==rightButton);
 
         // start a one time timer, return to the previous page after 1 secs of setting power
-        QTimer *singleShotTimer = new QTimer();
-        singleShotTimer->setSingleShot(true);
-        connect(singleShotTimer,&QTimer::timeout,display,&Display::backToPreviousPage);
-        singleShotTimer->start(1000);
+        if(!singleShotTimer->isActive()){
+            qDebug()<<"this timer is get started and is "<<singleShotTimer->isActive();
+            singleShotTimer->start(1000);
+        }
        }
 }
 void Control::handleMenuButton(){
+    if(!power){
+        return;
+    }
+
     display->changePage(mainMenu);
 }
 void Control::handleOkButton(){
+    if(!power){
+        return;
+    }
+
     int nextPage = display->toNextPage();
 
     if(nextPage == countDownPage||nextPage==countUpPage){
@@ -189,12 +171,18 @@ void Control::handleOkButton(){
 
 }
 void Control::handleElectrodes(){
+    if(!power){
+        return;
+    }
     if(display->getCurrentPage()==placeOnYourSkinPage){
         countDownTimer->startCountDown(600);
         display->goToPage(countDownPage);
     }
 }
 void Control::handleReturnButton(){
+    if(!power){
+        return;
+    }
     int currentpage = display->getCurrentPage();
     switch (currentpage) {
     case programList:
@@ -205,12 +193,16 @@ void Control::handleReturnButton(){
     case placeOnYourSkinPage:
     {
         display->goToPage(programList);
+        makeRecord(countDownTimer->getCurrentTimePassed());
         countDownTimer->stop();
     }
         break;
     case countUpPage:
-    {display->goToPage(frequencyList);
-    countDownTimer->stop();}
+    {
+        display->goToPage(frequencyList);
+        makeRecord(countDownTimer->getCurrentTimeLeft());
+        countDownTimer->stop();
+    }
         break;
     }
 }

@@ -8,6 +8,7 @@
 #include <QProgressBar>
 
 
+
 #define powerOffScreen 0
 #define mainMenu 1
 #define programList 2
@@ -17,6 +18,14 @@
 #define powerPage 6
 #define countUpPage 7
 #define historyPage 8
+#define historyListPage 9
+
+struct therapy{
+    QString date;
+    QString treatment;
+    QString powerlvl;
+    QString duration;
+};
 
 
 class Display : public QStackedWidget
@@ -32,6 +41,7 @@ public:
     void goToPage(int page);
     int toNextPage();
     int changePower(bool leftOrRight);
+    void addHistory(QVector<therapy>);
 
 
 public slots:

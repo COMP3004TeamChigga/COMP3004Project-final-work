@@ -120,7 +120,7 @@
            <enum>QFrame::Box</enum>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>9</number>
           </property>
           <widget class="QWidget" name="PowerOffPage">
            <property name="styleSheet">
@@ -338,7 +338,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QListWidget" name="HistoryWidget"/>
+             <widget class="QListWidget" name="historyWidget"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="HistoryListPage">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QListWidget" name="historyListWidget"/>
             </item>
            </layout>
           </widget>
