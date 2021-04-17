@@ -9,9 +9,14 @@
 #include <QTimer>
 #include <QVector>
 #include<QLabel>
+#include "mytimer.h"
+#include <QDateTime>
+
 struct therapy{
-    int program;
-    int frequency;
+    QString date;
+    QString treatment;
+    QString powerlvl;
+    QString duration;
 };
 
 class Control :public QObject,public Observer
@@ -22,20 +27,16 @@ public:
     Control();
     void setBars(QSlider* pb,QSlider* bb,QSlider* fb);
     void setDisplay(Display* d);
-    void setBatteryScreen(QLabel*);
-    void setPowerScreen(QLabel*);
-     void setFrequencyScreen(QLabel*);
      void setInitPage(int);
-     void makeRecord(QString,int);
+     void makeRecord(QString time);
 
 public slots:
     virtual void update(int type, int id) override;
-    void countdown();
-     void changeBetteryLevel();
+
+    void changeBetteryLevel();
     void powerToLabel(int value);
     void batteryToLabel(int value);
     void frequencyToLabel(int value);
-    void running_batt_down();
     void battchange();
 private:
     void handleButtonRequests(int type, int id);
@@ -43,6 +44,8 @@ private:
     void handleDirectionalButton(int id);
     void handleMenuButton();
     void handleOkButton();
+    void handleElectrodes();
+    void handleReturnButton();
 
 
     Display *display;
@@ -50,25 +53,26 @@ private:
     QSlider *batteryBar;
     QSlider *frequencyBar;
 
-    QTimer *timer = new QTimer(this);
-    QTimer *standingBy = new QTimer(this);
-    QTimer *running = new QTimer(this);
+    MyTimer *countDownTimer;
+    QDateTime *dateTime;
+
 
     QLabel *batteryScreen;
     QLabel *powerScreen;
     QLabel *frequencyScreen;
 
 
-    int countdown_time;
+
     int batt=100;
     int frequency;
     int powerlvl=1;
     bool power;
     bool ready=false;
-    int lastPage;
-    bool frequency_page=false;
-    bool record_page=false;
-    QVector<therapy*> history;
+
+
+    QVector<therapy> historyVector;
+    QVector<std::string> programVecor;
+    QVector<std::string> frequencyVector;
 
 
 };

@@ -46,11 +46,8 @@ void MainWindow::init(){
     ui->SkinOnOrOff->addObserver(this->control);
     ui->stackedWidget->currentWidget();
     control->setDisplay(ui->stackedWidget);
-    control->setBatteryScreen(ui->battery);
-    control->setPowerScreen(ui->power);
-    control->setFrequencyScreen(ui->frequency);
     control->setBars(ui->powerLevel, ui->batteryLevel, ui->frequencyLevel);
-    control->setInitPage(9);
+
 
 
 

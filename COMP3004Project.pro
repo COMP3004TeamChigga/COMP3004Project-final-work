@@ -17,6 +17,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     model.cpp \
+    mylistwidgetitem.cpp \
+    mytimer.cpp \
     observer.cpp \
     observerable.cpp
 
@@ -28,6 +30,8 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     model.h \
+    mylistwidgetitem.h \
+    mytimer.h \
     observer.h \
     observerable.h
 

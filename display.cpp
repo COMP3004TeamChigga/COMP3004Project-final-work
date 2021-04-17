@@ -2,253 +2,97 @@
 #include "QDebug"
 #include "QLabel"
 
+
 Display::Display(QWidget *parent) : QStackedWidget(parent)
 {
     currentSelection = -1;
+    previousPage = 0;
 }
 int Display::getSelection(){
-    return this->currentSelection;
+    QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
+    if(list!=nullptr){
+        return list->currentRow();
+    }
+    return -1;
 }
-
-void Display::initializePages(){
+int Display::getCurrentPage(){
+    return this->currentIndex();
+}
+void Display::goToPage(int page){
+    previousPage = this->getCurrentPage();
+    this->setCurrentIndex(page);
+}
+void Display::initializePages(QVector<std::string> programVecor,QVector<std::string> frequencyVector){
     QListWidget *menu =this->findChild<QListWidget*>("MainMnueWidget");
     QLabel *title = this->findChild<QLabel*>("label");
     menu->clear();
     title->setText("             Main Menu");
     title->setStyleSheet("QLabel { background-color : white; color : blue; }");
-    menu->addItem("Programs");
-    menu->addItem("Frequency");
-    menu->addItem("MED");
-    menu->addItem("Screening");
-    menu->addItem("Children");
-    menu->addItem("Records");
-    menu->setCurrentRow(0);
+    menu->addItem(new MyListWidgetItem("Program",programList));
+    menu->addItem(new MyListWidgetItem("Frequency",frequencyList));
+    menu->addItem(new MyListWidgetItem("History",historyPage));
+
 
     QListWidget *program = this->findChild<QListWidget*>("programWidget");
     QLabel *title_2= this->findChild<QLabel*>("label_2");
-    program->clear();
+//    program->clear();
     title_2->setText("             Program");
     title_2->setStyleSheet("QLabel { background-color : white; color : blue; }");
-    program->addItem("Gyn. Pain");
-    program->addItem("Gynecology");
-    program->addItem("Hypertension");
-    program->addItem("Hypotonia");
-    program->addItem("Head");
-    program->addItem("Throat");
-    program->setCurrentRow(0);
+    for (int i = 0;i<programVecor.length() ;++i ) {
+        program->addItem(new MyListWidgetItem(programVecor.at(i),placeOnYourSkinPage));
+    }
+
 
     QListWidget *frequency = this->findChild<QListWidget*>("frequencyWidget");
     QLabel *title_3= this->findChild<QLabel*>("label_16");
-    frequency->clear();
+//    frequency->clear();
     title_3->setText("            Frequency");
     title_3->setStyleSheet("QLabel { background-color : white; color : blue; }");
-    frequency->addItem("180Hz");
-    frequency->addItem("150Hz");
-    frequency->addItem("120Hz");
-    frequency->addItem("100Hz");
-    frequency->addItem("50Hz");
-    frequency->addItem("30Hz");
-    frequency->setCurrentRow(0);
-     qInfo()<<this->currentIndex();
 
-     QListWidget *record= this->findChild<QListWidget*>("recordWidget");
-     QLabel *title_4= this->findChild<QLabel*>("label_33");
-     title_4->setText("            Record");
-     title_4->setStyleSheet("QLabel { background-color : white; color : blue; }");
-     record->addItem("View");
-     record->addItem("Clear");
+    for (int i = 0;i<frequencyVector.length() ;++i ) {
+        frequency->addItem(new MyListWidgetItem(frequencyVector.at(i),countUpPage));
+    }
 
 
+    this->findChild<QProgressBar*>("powerPageBar")->setValue(0);
 
+    QListWidget *historyList = this->findChild<QListWidget*>("HistoryWidget");
+//    historyList->clear();
+    qDebug()<<"historylist is null or not?"<< (historyList==nullptr?"yes":"no");
+
+    historyList->addItem(new MyListWidgetItem("View"));
+    historyList->addItem(new MyListWidgetItem("Clear"));
+
+
+}
+
+int Display::toNextPage(){
+    QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
+    if(list!=nullptr){
+        QListWidgetItem* tmp = list->currentItem();
+        MyListWidgetItem *myLI = dynamic_cast<MyListWidgetItem *>(tmp);
+        if(myLI != nullptr){
+            int nextPage = myLI->getNextPage();
+            if(nextPage > 0){
+                changePage(nextPage);
+                return nextPage;
+            }
+        }
+    }
+    return -1;
 }
 
 int Display::changePage(int page){
-
-    switch (page) {
-
-      case 1: //MainMnue
-    {
-
-        this->setCurrentIndex(0);
-         currentSelection = 0;
-         this->findChild<QListWidget*>("MainMnueWidget")->setCurrentRow(0);
-
-          break;
+    previousPage = this->getCurrentPage();
+    this->setCurrentIndex(page);
+    QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
+    if(list!=nullptr){
+       list->setCurrentRow(0);
     }
-      case 2: // Program
-    {
-
-        this->setCurrentIndex(1);
-         currentSelection = 0;
-
-        this->findChild<QListWidget*>("programWidget")->setCurrentRow(0);
-
-    }
-
-
-        break;
-      case 3: // program 1 gyn.pain
-    {
-
-        this->setCurrentIndex(2);
-
-        QLabel *program1= this->findChild<QLabel*>("label_6");
-        program1->setText("             Gyn. Pain");
-        program1->setStyleSheet("QLabel { background-color : white; color : blue; }");
-        QLabel *program1_time= this->findChild<QLabel*>("label_7");
-        program1_time->setText("Start");
-
-    }
-
-        break;
-      case 4: // program 2
-       {
-        this->setCurrentIndex(3);
-
-        QLabel *program2= this->findChild<QLabel*>("label_8");
-        program2->setText("           Gynecology");
-        program2->setStyleSheet("QLabel { background-color : white; color : blue; }");
-        QLabel *program2_time= this->findChild<QLabel*>("label_9");
-        program2_time->setText("Start");
-    }
-        break;
-
-    case 5:// program 3
-    {
-      this->setCurrentIndex(4);
-
-      QLabel *program3= this->findChild<QLabel*>("label_10");
-      program3->setText("           Hypertension");
-      program3->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *program3_time= this->findChild<QLabel*>("label_11");
-      program3_time->setText("Start");
-
-    }
-      break;
-
-    case 6: // program 4
-    {
-      this->setCurrentIndex(5);
-
-      QLabel *program4= this->findChild<QLabel*>("label_12");
-      program4->setText("           Hypotonia");
-      program4->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *program4_time= this->findChild<QLabel*>("label_13");
-      program4_time->setText("Start");
-
-    }
-      break;
-
-    case 7:// program 5
-    {
-      this->setCurrentIndex(6);
-
-      QLabel *program5= this->findChild<QLabel*>("label_14");
-      program5->setText("           Head");
-      program5->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *program5_time= this->findChild<QLabel*>("label_15");
-      program5_time->setText("Start");
-
-    }
-      break;
-
-
-    case 8:// frequency menu
-        {
-        this->setCurrentIndex(7);
-         currentSelection = 0;
-         this->findChild<QListWidget*>("frequencyWidget")->setCurrentRow(0);
-
-        }
-          break;
-
-
-
-
-    case 9:// blank, powerOff
-        {
-          this->setCurrentIndex(10);
-
-
-
-        }
-          break;
-    case 10:// frequency 1
-        {
-        this->setCurrentIndex(8);
-      QLabel *frequency1= this->findChild<QLabel*>("label_25");
-      frequency1->setText("           180Hz");
-      frequency1->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *frequency1_time= this->findChild<QLabel*>("label_26");
-     frequency1_time->setText("Start");
-
-    }
-      break;
-
-
-
-    case 11:// frequency 2
-        {
-        this->setCurrentIndex(10);
-      QLabel *frequency2= this->findChild<QLabel*>("label_27");
-      frequency2->setText("           150Hz");
-      frequency2->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *frequency2_time= this->findChild<QLabel*>("label_28");
-      frequency2_time->setText("Start");
-
-    }
-      break;
-
-    case 12://frequency 3
-        {
-        this->setCurrentIndex(11);
-      QLabel *frequency3= this->findChild<QLabel*>("label_29");
-     frequency3->setText("           120Hz");
-      frequency3->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *frequency3_time= this->findChild<QLabel*>("label_30");
-      frequency3_time->setText("Start");
-
-    }
-      break;
-    case 13:// frequency 4
-        {
-        this->setCurrentIndex(12);
-      QLabel *frequency4= this->findChild<QLabel*>("label_31");
-     frequency4->setText("           100Hz");
-      frequency4->setStyleSheet("QLabel { background-color : white; color : blue; }");
-      QLabel *frequency4_time= this->findChild<QLabel*>("label_32");
-      frequency4_time->setText("Start");
-
-    }
-      break;
-
-    case 14:
-        {
-        this->setCurrentIndex(13);
-        currentSelection = 0;
-        this->findChild<QListWidget*>("recordWidget")->setCurrentRow(0);
-
-
-
-    }
-      break;
-
-    case 15:
-        {
-        this->setCurrentIndex(14);
-        currentSelection = 0;
-        this->findChild<QListWidget*>("record")->setCurrentRow(0);
-
-
-
-    }
-      break;
-
-
-    }
-
     return 0;
 }
+
+
 
 //@return the index of the last selection, -1 at fail
 //@input bool int UpOrDown is the the value for whether the selection goes up or down
@@ -261,20 +105,53 @@ int Display::changeSelection(bool UpOrDown){
     if(list==nullptr){
        return -1;
     }
+    int cs = list->currentRow();
+    int toRow = (UpOrDown?--cs:++cs)%list->count();
+    toRow = toRow<0?list->count()-1:toRow;
+    toRow = toRow > list->count()-1?0:toRow;
+    list->setCurrentRow(toRow);
 
-    if(UpOrDown){
-            if(currentSelection>0){
-            currentSelection--;
-            list->setCurrentRow(currentSelection);
-            }
-        }
-        if(!UpOrDown){
-        if(currentSelection<5){
-            currentSelection++;
-            list->setCurrentRow(currentSelection);
-        }
-        }
+
 
 
     return list->currentRow();
 }
+
+int Display::changePower(bool leftOrRight){
+    QProgressBar *powerBar = this->findChild<QProgressBar*>("powerPageBar");
+    int value = powerBar->value();
+    if(!leftOrRight){
+        powerBar->setValue(value-5);
+    }else{
+        powerBar->setValue(value+5);
+    }
+    return powerBar->value();
+}
+
+void Display::startCountDown(QString time){
+    this->findChild<QLabel*>("countDownLabel")->setText(time);
+}
+
+void Display::startCountUp(QString time){
+
+    this->findChild<QLabel*>("countUpLabel")->setText(time);
+}
+
+QString Display::secToQString(int sec){
+    int seconds = sec%60;
+    int minutes = floor(sec/60);
+    QString a = QString();
+    QString b = QString();
+    a.setNum(seconds);
+    b.setNum(minutes);
+
+    qDebug()<<"the time is:" <<b+QString(":")+a;
+    return b+QString(":")+a;
+}
+
+void Display::backToPreviousPage(){
+    qDebug()<<"previousPage page is "<< previousPage;
+    changePage(previousPage);
+}
+
+
