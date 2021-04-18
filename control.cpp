@@ -53,6 +53,7 @@ void Control::setBatteryLabel(QLabel* b){
 // display to store it
 void Control::makeRecord(){
     struct therapy t;
+    onSkin = false;
 
     display->clearTimer();
 
