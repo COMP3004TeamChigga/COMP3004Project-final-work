@@ -23,12 +23,24 @@
       <height>545</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>273</width>
+      <height>545</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>273</width>
+      <height>545</height>
+     </size>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: white; border: dark; border-radius:19px</string>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QWidget" name="widget_2" native="true">
+      <widget class="QWidget" name="Screen" native="true">
        <property name="minimumSize">
         <size>
          <width>249</width>
@@ -38,7 +50,7 @@
        <property name="maximumSize">
         <size>
          <width>249</width>
-         <height>191</height>
+         <height>220</height>
         </size>
        </property>
        <property name="baseSize">
@@ -53,12 +65,15 @@
        <property name="styleSheet">
         <string notr="true">background-color: black</string>
        </property>
-       <layout class="QFormLayout" name="formLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>9</number>
         </property>
-        <item row="0" column="1">
-         <widget class="QLabel" name="battery">
+        <item>
+         <widget class="QLabel" name="batteryLabel">
           <property name="layoutDirection">
            <enum>Qt::RightToLeft</enum>
           </property>
@@ -70,59 +85,36 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="frequency">
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color:white;</string>
-          </property>
-          <property name="text">
-           <string>Frequency:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="power">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>50</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::ActionsContextMenu</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color:white;</string>
-          </property>
-          <property name="text">
-           <string>Powerlevel:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
+        <item>
          <widget class="Display" name="stackedWidget">
           <property name="minimumSize">
            <size>
-            <width>217</width>
-            <height>140</height>
+            <width>228</width>
+            <height>164</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>228</width>
+            <height>164</height>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color:white</string>
+           <string notr="true">background-color:white;border-radius: 0px;</string>
           </property>
           <property name="frameShape">
-           <enum>QFrame::Box</enum>
+           <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="currentIndex">
-           <number>9</number>
+           <number>8</number>
           </property>
           <widget class="QWidget" name="PowerOffPage">
+           <property name="minimumSize">
+            <size>
+             <width>228</width>
+             <height>164</height>
+            </size>
+           </property>
            <property name="styleSheet">
             <string notr="true">background-color:white;</string>
            </property>
@@ -132,30 +124,11 @@
               <x>0</x>
               <y>10</y>
               <width>211</width>
-              <height>20</height>
+              <height>121</height>
              </rect>
             </property>
             <property name="text">
-             <string>The Power is Off</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_6">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>30</y>
-              <width>211</width>
-              <height>91</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>DejaVu Sans</family>
-              <pointsize>39</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
+             <string>Please Turn The Power On</string>
             </property>
            </widget>
           </widget>
@@ -164,10 +137,20 @@
             <string notr="true">background-color:white;</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label">
+              <property name="styleSheet">
+               <string notr="true">background:rgb(73, 144, 255);</string>
+              </property>
               <property name="text">
-               <string/>
+               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;MAINMENU&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
@@ -187,153 +170,190 @@
            <property name="styleSheet">
             <string notr="true">background-color:white;</string>
            </property>
-           <widget class="QLabel" name="label_2">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>201</width>
-              <height>20</height>
-             </rect>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <property name="spacing">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-           <widget class="QListWidget" name="programWidget">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>30</y>
-              <width>211</width>
-              <height>141</height>
-             </rect>
-            </property>
-           </widget>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="styleSheet">
+               <string notr="true">background:rgb(73, 144, 255);</string>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;PROGRAM&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="programWidget"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="FrequencyPage">
            <property name="styleSheet">
             <string notr="true">background-color:white;</string>
            </property>
-           <widget class="QLabel" name="label_16">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>10</y>
-              <width>161</width>
-              <height>20</height>
-             </rect>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <property name="spacing">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-           <widget class="QListWidget" name="frequencyWidget">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>20</y>
-              <width>211</width>
-              <height>141</height>
-             </rect>
-            </property>
-           </widget>
+            <item>
+             <widget class="QLabel" name="label_16">
+              <property name="styleSheet">
+               <string notr="true">background:rgb(73, 144, 255);</string>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;FREQUENCY&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="frequencyWidget"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="CountDownPage">
            <property name="styleSheet">
             <string notr="true">background-color:white;</string>
            </property>
-           <widget class="QLabel" name="countDownLabel">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>20</y>
-              <width>161</width>
-              <height>81</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;10:00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QLabel" name="countDownTitle">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="countDownLabel">
+              <property name="styleSheet">
+               <string notr="true">font: 48pt;qproperty-alignment: AlignCenter;text-align: center;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::PlainText</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="picturePage">
-           <widget class="QLabel" name="label_7">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>20</y>
-              <width>211</width>
-              <height>61</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Plase place the device on skin </string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <widget class="QLabel" name="picturPageTitle">
+              <property name="maximumSize">
+               <size>
+                <width>211</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>Plase place the device on skin </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="PowerPage">
-           <widget class="QProgressBar" name="powerPageBar">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>90</y>
-              <width>141</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="value">
-             <number>24</number>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_9">
-            <property name="geometry">
-             <rect>
-              <x>70</x>
-              <y>20</y>
-              <width>60</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Power</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="powerPageLabel">
-            <property name="geometry">
-             <rect>
-              <x>60</x>
-              <y>50</y>
-              <width>60</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Power&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="powerPageLabel">
+              <property name="styleSheet">
+               <string notr="true">font: 48pt;qproperty-alignment: AlignCenter;text-align: center;</string>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QProgressBar" name="powerPageBar">
+              <property name="value">
+               <number>24</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="CountUpPage">
-           <widget class="QLabel" name="countUpLabel">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>40</y>
-              <width>161</width>
-              <height>81</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;10:00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
+           <property name="minimumSize">
+            <size>
+             <width>228</width>
+             <height>164</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>228</width>
+             <height>164</height>
+            </size>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QLabel" name="countUpTitle">
+              <property name="minimumSize">
+               <size>
+                <width>191</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>191</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="countUpLabel">
+              <property name="styleSheet">
+               <string notr="true">font: 48pt;qproperty-alignment: AlignCenter;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="HistoryPage">
            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="HistoryPageTitle">
+              <property name="styleSheet">
+               <string notr="true">background:rgb(73, 144, 255);</string>
+              </property>
               <property name="text">
-               <string>                     History</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;History&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
@@ -494,239 +514,18 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="widget_3" native="true">
+   <widget class="Buttons" name="SkinOnOrOff">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>80</y>
-      <width>311</width>
-      <height>561</height>
+      <x>380</x>
+      <y>200</y>
+      <width>71</width>
+      <height>32</height>
      </rect>
     </property>
-    <widget class="QWidget" name="widget_4" native="true">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>240</y>
-       <width>271</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <widget class="Buttons" name="SkinOnOrOff">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>71</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>on/off</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>80</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Battery:</string>
-      </property>
-     </widget>
-     <widget class="QSlider" name="batteryLevel">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>110</y>
-        <width>160</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_22">
-      <property name="geometry">
-       <rect>
-        <x>200</x>
-        <y>130</y>
-        <width>41</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>100%</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_24">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>130</y>
-        <width>31</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0%</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="widget_5" native="true">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>271</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>frequency:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>power:</string>
-      </property>
-     </widget>
-     <widget class="QSlider" name="powerLevel">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>40</y>
-        <width>160</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QSlider" name="frequencyLevel">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>110</y>
-        <width>160</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="maximum">
-       <number>200</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_17">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>60</y>
-        <width>21</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>1</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_18">
-      <property name="geometry">
-       <rect>
-        <x>200</x>
-        <y>60</y>
-        <width>31</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>100</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_19">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>140</y>
-        <width>41</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0Hz</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_20">
-      <property name="geometry">
-       <rect>
-        <x>200</x>
-        <y>140</y>
-        <width>51</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>200HZ</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_21">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>170</y>
-        <width>31</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>100</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_23">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>170</y>
-        <width>21</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </widget>
+    <property name="text">
+     <string>on/off</string>
+    </property>
    </widget>
   </widget>
  </widget>

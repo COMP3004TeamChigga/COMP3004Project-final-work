@@ -20,18 +20,18 @@ class Control :public QObject,public Observer
 
 public:
     Control();
-    void setBars(QSlider* pb,QSlider* bb,QSlider* fb);
-    void setDisplay(Display* d);
 
-     void makeRecord(QString time);
+    void setDisplay(Display* d);
+    void setBetteryLabel(QLabel*);
+
 
 public slots:
     virtual void update(int type, int id) override;
-
-    void changeBetteryLevel();
-
-    void battchange();
+    void changeBetteryLevel(int);
+signals:
+    void battchange(int);
 private:
+    void makeRecord();
     void handleButtonRequests(int type, int id);
     void handlePowerButton();
     void handleDirectionalButton(int id);
@@ -42,25 +42,22 @@ private:
 
 
     Display *display;
-    QSlider *powerBar;
-    QSlider *batteryBar;
-    QSlider *frequencyBar;
+
 
     MyTimer *countDownTimer;
+    MyTimer *systemTimer;
     QTimer *singleShotTimer;
 
 
     QLabel *batteryScreen;
-    QLabel *powerScreen;
-    QLabel *frequencyScreen;
 
 
 
-    int batt=100;
-
+    int previousPage;
+    int battery;
     int powerlvl=1;
     bool power;
-    bool ready=false;
+    bool onSkin;
 
 
     QVector<therapy> historyVector;

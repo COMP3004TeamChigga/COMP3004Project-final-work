@@ -24,57 +24,66 @@ void Display::goToPage(int page){
 }
 void Display::initializePages(QVector<std::string> programVecor,QVector<std::string> frequencyVector){
     QListWidget *menu =this->findChild<QListWidget*>("MainMnueWidget");
-    QLabel *title = this->findChild<QLabel*>("label");
-    menu->clear();
-    title->setText("             Main Menu");
-    title->setStyleSheet("QLabel { background-color : white; color : blue; }");
+
     menu->addItem(new MyListWidgetItem("Program",programList));
     menu->addItem(new MyListWidgetItem("Frequency",frequencyList));
     menu->addItem(new MyListWidgetItem("History",historyPage));
 
 
     QListWidget *program = this->findChild<QListWidget*>("programWidget");
-    QLabel *title_2= this->findChild<QLabel*>("label_2");
-//    program->clear();
-    title_2->setText("             Program");
-    title_2->setStyleSheet("QLabel { background-color : white; color : blue; }");
+
+
     for (int i = 0;i<programVecor.length() ;++i ) {
         program->addItem(new MyListWidgetItem(programVecor.at(i),placeOnYourSkinPage));
     }
 
 
     QListWidget *frequency = this->findChild<QListWidget*>("frequencyWidget");
-    QLabel *title_3= this->findChild<QLabel*>("label_16");
-//    frequency->clear();
-    title_3->setText("            Frequency");
-    title_3->setStyleSheet("QLabel { background-color : white; color : blue; }");
-
     for (int i = 0;i<frequencyVector.length() ;++i ) {
-        frequency->addItem(new MyListWidgetItem(frequencyVector.at(i),countUpPage));
+        frequency->addItem(new MyListWidgetItem(frequencyVector.at(i),placeOnYourSkinPage));
     }
 
 
     this->findChild<QProgressBar*>("powerPageBar")->setValue(0);
 
     QListWidget *historyList = this->findChild<QListWidget*>("historyWidget");
-//    historyList->clear();
-    qDebug()<<"historylist is null or not?"<< (historyList==nullptr?"yes":"no");
-
     historyList->addItem(new MyListWidgetItem("View",historyListPage));
     historyList->addItem(new MyListWidgetItem("Clear"));
+
+    this->setCurrentIndex(0);
+
+}
+
+void Display::changeFunctionPageTitle(QString s,int page){
+
+
+
+
+    if(page == placeOnYourSkinPage){
+        QLabel *title = this->findChild<QLabel*>("picturPageTitle");
+        QLabel *title2 = this->findChild<QLabel*>("countDownTitle");
+        QLabel *title3 = this->findChild<QLabel*>("countUpTitle");
+        title->setText(s);
+        title2->setText(s);
+        title3->setText(s);
+        qDebug()<<"picturPageTitle got"<<title->text();
+        qDebug()<<"countDownTitle got"<<title2->text();
+    }
+
 
 
 }
 
 int Display::toNextPage(){
     QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
-    if(list!=nullptr){
+    if(list!=nullptr){// make sure that this is a listwidget
         QListWidgetItem* tmp = list->currentItem();
         MyListWidgetItem *myLI = dynamic_cast<MyListWidgetItem *>(tmp);
-        if(myLI != nullptr){
+        if(myLI != nullptr){// make sure the listItem exists
             int nextPage = myLI->getNextPage();
             if(nextPage > 0){
                 changePage(nextPage);
+                changeFunctionPageTitle(myLI->text(),nextPage);
                 return nextPage;
             }
         }
@@ -84,15 +93,20 @@ int Display::toNextPage(){
 
 int Display::changePage(int page){
     previousPage = this->getCurrentPage();
+
+
+    // this validates if the current widget has a list widget, if so, set the selection to row 0;
     this->setCurrentIndex(page);
     QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
     if(list!=nullptr){
        list->setCurrentRow(0);
     }
+
+
+
+
     return 0;
 }
-
-
 
 //@return the index of the last selection, -1 at fail
 //@input bool int UpOrDown is the the value for whether the selection goes up or down
@@ -125,30 +139,38 @@ int Display::changePower(bool leftOrRight){
     }else{
         powerBar->setValue(value+5);
     }
-    return powerBar->value();
+
+    value = powerBar->value();
+    QLabel *powerLable = this->findChild<QLabel*>("powerPageLabel");
+    powerLable->setText(QString().setNum(value));
+    powerLable->setAlignment(Qt::AlignCenter);
+    return value;
+}
+
+void Display::toTheapyPage(){
+    if(previousPage == programList){
+        goToPage(countDownPage);
+    }
+    if(previousPage == frequencyList){
+        goToPage(countUpPage);
+    }
 }
 
 void Display::startCountDown(QString time){
-    this->findChild<QLabel*>("countDownLabel")->setText(time);
+    QLabel *countLabel = this->findChild<QLabel*>("countDownLabel");
+    countLabel->setText(time);
+    countLabel->setAlignment(Qt::AlignCenter);
 }
 
 void Display::startCountUp(QString time){
 
-    this->findChild<QLabel*>("countUpLabel")->setText(time);
+    QLabel *countLabel = this->findChild<QLabel*>("countUpLabel");
+    countLabel->setText(time);
+    countLabel->setAlignment(Qt::AlignCenter);
 }
 
-QString Display::secToQString(int sec){
-    int seconds = sec%60;
-    int minutes = floor(sec/60);
-    QString a = QString();
-    QString b = QString();
-    a.setNum(seconds);
-    b.setNum(minutes);
 
-    qDebug()<<"the time is:" <<b+QString(":")+a;
-    return b+QString(":")+a;
-}
-
+// this function is used spicifically for the left and right button
 void Display::backToPreviousPage(){
     qDebug()<<"previousPage page is "<< previousPage;
     changePage(previousPage);
@@ -164,3 +186,12 @@ void Display::addHistory(QVector<therapy> historyVector){
     }
 }
 
+void Display::changeBettery(int bettery){
+    QLabel *bettLabel = this->findChild<QLabel*>("batteryLabel");
+    if(bettLabel!=nullptr){
+        bettLabel->setText(QString().setNum(bettery)+QString("%"));
+    }else{
+        qDebug()<<"batteryLabel is an nullptr";
+    }
+
+}

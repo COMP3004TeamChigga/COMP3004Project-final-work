@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include "mylistwidgetitem.h"
 #include <QProgressBar>
+#include <QString>
 
 
 
@@ -42,17 +43,19 @@ public:
     int toNextPage();
     int changePower(bool leftOrRight);
     void addHistory(QVector<therapy>);
+    void toTheapyPage();
 
 
 public slots:
     void startCountDown(QString time);
     void startCountUp(QString time);
     void backToPreviousPage();
+    void changeBettery(int);
 
 
 private:
+    void changeFunctionPageTitle(QString,int);
     int currentSelection;
-    QString secToQString(int sec);
     QTimer* timer;
     int previousPage;
 

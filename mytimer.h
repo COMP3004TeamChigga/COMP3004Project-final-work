@@ -24,6 +24,7 @@ public slots:
 signals:
     void oneSecPassed(QString time);
     void oneSecPassedReverse(QString time);
+    void oneSecPassedinInt(int);
 
 private:
     QTimer *qtimer;

@@ -23,8 +23,17 @@ QString secToQString(int sec){
     int minutes = floor(sec/60);
     QString a = QString();
     QString b = QString();
-    a.setNum(seconds);
-    b.setNum(minutes);
+    if(seconds == 0){
+        a = QString::fromStdString("00");
+    }else{
+            a.setNum(seconds);
+    }
+    if(minutes == 0){
+        b = QString::fromStdString("00");
+    }else{
+            b.setNum(minutes);
+    }
+
 
     qDebug()<<"the time is:" <<b+QString(":")+a;
     return b+QString(":")+a;
@@ -37,6 +46,7 @@ void MyTimer::handleTimeOut(){
 
     QString res =secToQString(qElapsedTimer->elapsed()/1000);
     emit oneSecPassed(res);
+    emit oneSecPassedinInt(qElapsedTimer->elapsed()/1000);
 }
 
 void MyTimer::handleTimeOutReverse(){
