@@ -17,6 +17,7 @@ Control::Control():Observer()
     singleShotTimer = new QTimer();
     singleShotTimer->setSingleShot(true);
     battery = 100;
+    powerlvl = 0;
     onSkin = false;
 
     programVecor.append("Gyn. Pain");
@@ -31,20 +32,16 @@ Control::Control():Observer()
 
 
 }
-
-
-
-
 void Control::setDisplay(Display* d){
     this->display = d;
     display->initializePages(programVecor,frequencyVector);
     connect(countDownTimer,&MyTimer::oneSecPassedReverse,display,&Display::startCountDown);
     connect(countDownTimer,&MyTimer::oneSecPassed,display,&Display::startCountUp);
     connect(singleShotTimer,&QTimer::timeout,display,&Display::backToPreviousPage);
-    connect(systemTimer,&MyTimer::oneSecPassedinInt,this,&Control::changeBetteryLevel);
+    connect(systemTimer,&MyTimer::oneSecPassedinInt,this,&Control::changeBatteryLevel);
 
 }
-void Control::setBetteryLabel(QLabel* b){
+void Control::setBatteryLabel(QLabel* b){
     this->batteryScreen = b;
     this->batteryScreen->setAlignment(Qt::AlignRight);
 }
@@ -55,6 +52,8 @@ void Control::setBetteryLabel(QLabel* b){
 // display to store it
 void Control::makeRecord(){
     struct therapy t;
+
+    display->clearTimer();
 
     QDateTime date = QDateTime::currentDateTime();
     QString formattedTime = date.toString("ddd MMMM d yy");
@@ -84,7 +83,6 @@ void Control::makeRecord(){
 
 
 void Control::update(int type,int id){
-    qDebug()<< "this is just a test :"<<type << id;
     handleButtonRequests(type,id);
 }
 
@@ -125,18 +123,17 @@ void Control::handleButtonRequests(int type, int id){
         break;
     }
 }
-
 void Control::handlePowerButton(){
     if(!power&&battery>0){
         power=true;
         systemTimer->startCountDown(100000);
-        display->changePage(mainMenu);
+        display->goToPage(mainMenu);
     }
     else if(power){
         power=false;
         countDownTimer->stop();
         systemTimer->stop();
-        display->changePage(powerOffScreen);
+        display->goToPage(powerOffScreen);
         historyVector.clear();
         display->addHistory(historyVector);
 
@@ -153,10 +150,9 @@ void Control::handleDirectionalButton(int id){
         powerlvl = display->changePower(id==rightButton);
 
         // start a one time timer, return to the previous page after 1 secs of setting power
-        if(!singleShotTimer->isActive()){
             qDebug()<<"this timer is get started and is "<<singleShotTimer->isActive();
             singleShotTimer->start(1000);
-        }
+
        }
 }
 void Control::handleMenuButton(){
@@ -165,25 +161,45 @@ void Control::handleMenuButton(){
         countDownTimer->stop();
     }
 
-    display->changePage(mainMenu);
+    display->goToPage(mainMenu);
 }
 void Control::handleOkButton(){
 
 
-    previousPage = display->getCurrentPage();
+
     int CurrentPage = display->toNextPage();
 
     if(CurrentPage == countDownPage||CurrentPage==countUpPage){
         countDownTimer->startCountDown(600);
     }
 
+    if(CurrentPage == clearPage){
+        historyVector.clear();
+        display->addHistory(historyVector);
+    }
+
 
 }
 void Control::handleElectrodes(){
-
-    if(display->getCurrentPage()==placeOnYourSkinPage){
+    qDebug()<<"the page in elec = "<<display->getCurrentPage();
+    int page = display->getCurrentPage();
+    if(page==placeOnYourSkinPage){
+        qDebug()<<"display->getCurrentPage()==placeOnYourSkinPag";
+        onSkin = true;
         countDownTimer->startCountDown(600);
         display->toTheapyPage();
+    }
+    if(page == countDownPage
+            || page == countUpPage){
+        qDebug()<<"display->getCurrentPage() == countDownPage display->getCurrentPage() == countUpPage"
+                    << (onSkin?"onskin":"not onskin");
+        if(onSkin){
+            onSkin= false;
+            countDownTimer->pause();
+        }else{
+            onSkin = true;
+            countDownTimer->restart();
+        }
     }
 }
 void Control::handleReturnButton(){
@@ -218,14 +234,19 @@ void Control::handleReturnButton(){
 
 
 //this function should change the powerBar accroding to the time initialed and the and the power level of the therapy
-void Control::changeBetteryLevel(int timePassedInSec){
-    int nextBettery = floor(100 - 0.1*timePassedInSec -0.05*powerlvl);
-    qDebug()<<"powerlvl = "<<powerlvl;
-    this->battery = nextBettery;
-    this->batteryScreen->setText(QString("Bettery:")+QString().setNum(nextBettery)+QString("%"));
-    if(this->battery == 0){
+void Control::changeBatteryLevel( ){
+    float powerUsedThisSec = onSkin?0.05*powerlvl:0+0.1;
+    this->battery= this->battery - powerUsedThisSec;
+
+    if(this->battery <= 0){
         handlePowerButton();
     }
+    this->batteryScreen->setText(QString("Bettery:")+QString().setNum(static_cast<int>(battery))+QString("%"));
+
 }
+
+
+
+
 
 

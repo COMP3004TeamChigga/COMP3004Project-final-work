@@ -22,16 +22,19 @@ public:
     Control();
 
     void setDisplay(Display* d);
-    void setBetteryLabel(QLabel*);
+    void setBatteryLabel(QLabel*);
 
 
 public slots:
     virtual void update(int type, int id) override;
-    void changeBetteryLevel(int);
+    void changeBatteryLevel();
 signals:
     void battchange(int);
+
 private:
+
     void makeRecord();
+    //
     void handleButtonRequests(int type, int id);
     void handlePowerButton();
     void handleDirectionalButton(int id);
@@ -54,8 +57,8 @@ private:
 
 
     int previousPage;
-    int battery;
-    int powerlvl=1;
+    float battery;
+    int powerlvl;
     bool power;
     bool onSkin;
 

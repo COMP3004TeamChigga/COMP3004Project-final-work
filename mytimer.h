@@ -16,6 +16,8 @@ public:
     QString getCurrentTimePassed();
     QString getCurrentTimeLeft();
     void stop();
+    void pause();
+    void restart();
 
 public slots:
     void handleTimeOut();
@@ -24,12 +26,14 @@ public slots:
 signals:
     void oneSecPassed(QString time);
     void oneSecPassedReverse(QString time);
-    void oneSecPassedinInt(int);
+    void oneSecPassedinInt();
 
 private:
     QTimer *qtimer;
     QElapsedTimer *qElapsedTimer;
     int secCount;
+    int timeAlreadyElapsed;
+    int elapsedTIme();
 };
 
 #endif // MYTIMER_H

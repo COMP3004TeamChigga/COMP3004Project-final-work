@@ -7,6 +7,7 @@ Display::Display(QWidget *parent) : QStackedWidget(parent)
 {
     currentSelection = -1;
     previousPage = 0;
+    therapyMode = 0;
 }
 int Display::getSelection(){
     QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
@@ -21,6 +22,11 @@ int Display::getCurrentPage(){
 void Display::goToPage(int page){
     previousPage = this->getCurrentPage() == powerPage?previousPage:this->getCurrentPage();
     this->setCurrentIndex(page);
+    QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
+    if(list!=nullptr){
+       list->setCurrentRow(0);
+    }
+
 }
 void Display::initializePages(QVector<std::string> programVecor,QVector<std::string> frequencyVector){
     QListWidget *menu =this->findChild<QListWidget*>("MainMnueWidget");
@@ -48,12 +54,11 @@ void Display::initializePages(QVector<std::string> programVecor,QVector<std::str
 
     QListWidget *historyList = this->findChild<QListWidget*>("historyWidget");
     historyList->addItem(new MyListWidgetItem("View",historyListPage));
-    historyList->addItem(new MyListWidgetItem("Clear"));
+    historyList->addItem(new MyListWidgetItem("Clear",clearPage));
 
     this->setCurrentIndex(0);
 
 }
-
 void Display::changeFunctionPageTitle(QString s,int page){
 
 
@@ -75,6 +80,12 @@ void Display::changeFunctionPageTitle(QString s,int page){
 }
 
 int Display::toNextPage(){
+    if(this->getCurrentPage() == programList){
+        therapyMode = 1;
+    }
+    if(this->getCurrentPage() == frequencyList){
+        therapyMode = 2;
+    }
     QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
     if(list!=nullptr){// make sure that this is a listwidget
         QListWidgetItem* tmp = list->currentItem();
@@ -82,7 +93,7 @@ int Display::toNextPage(){
         if(myLI != nullptr){// make sure the listItem exists
             int nextPage = myLI->getNextPage();
             if(nextPage > 0){
-                changePage(nextPage);
+                goToPage(nextPage);
                 changeFunctionPageTitle(myLI->text(),nextPage);
                 return nextPage;
             }
@@ -91,22 +102,6 @@ int Display::toNextPage(){
     return -1;
 }
 
-int Display::changePage(int page){
-    previousPage = this->getCurrentPage();
-
-
-    // this validates if the current widget has a list widget, if so, set the selection to row 0;
-    this->setCurrentIndex(page);
-    QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
-    if(list!=nullptr){
-       list->setCurrentRow(0);
-    }
-
-
-
-
-    return 0;
-}
 
 //@return the index of the last selection, -1 at fail
 //@input bool int UpOrDown is the the value for whether the selection goes up or down
@@ -148,10 +143,12 @@ int Display::changePower(bool leftOrRight){
 }
 
 void Display::toTheapyPage(){
-    if(previousPage == programList){
+    qDebug()<<"previousPage page in to Theapy page is "<< previousPage;
+qDebug()<<"therapyMode in to Theapy page is "<< therapyMode;
+    if(therapyMode == 1){
         goToPage(countDownPage);
     }
-    if(previousPage == frequencyList){
+    if(therapyMode == 2){
         goToPage(countUpPage);
     }
 }
@@ -173,7 +170,7 @@ void Display::startCountUp(QString time){
 // this function is used spicifically for the left and right button
 void Display::backToPreviousPage(){
     qDebug()<<"previousPage page is "<< previousPage;
-    changePage(previousPage);
+    goToPage(previousPage);
 }
 
 void Display::addHistory(QVector<therapy> historyVector){
@@ -194,4 +191,11 @@ void Display::changeBettery(int bettery){
         qDebug()<<"batteryLabel is an nullptr";
     }
 
+}
+
+void Display::clearTimer(){
+    QLabel *countLabel1 = this->findChild<QLabel*>("countUpLabel");
+    QLabel *countLabel2 = this->findChild<QLabel*>("countDownLabel");
+    countLabel1->clear();
+    countLabel2->clear();
 }

@@ -20,6 +20,7 @@
 #define countUpPage 7
 #define historyPage 8
 #define historyListPage 9
+#define clearPage 10
 
 struct therapy{
     QString date;
@@ -35,15 +36,16 @@ class Display : public QStackedWidget
 public:
     void initializePages(QVector<std::string> programVecor,QVector<std::string> frequencyVector);
     explicit Display(QWidget *parent = nullptr);
-    int changePage(int page);
-    int changeSelection(bool UpOrDown);
     int getSelection();
     int getCurrentPage();
     void goToPage(int page);
     int toNextPage();
-    int changePower(bool leftOrRight);
-    void addHistory(QVector<therapy>);
     void toTheapyPage();
+    int changePower(bool leftOrRight);
+    int changeSelection(bool UpOrDown);
+    void addHistory(QVector<therapy>);
+
+    void clearTimer();
 
 
 public slots:
@@ -56,8 +58,8 @@ public slots:
 private:
     void changeFunctionPageTitle(QString,int);
     int currentSelection;
-    QTimer* timer;
     int previousPage;
+    int therapyMode;
 
 
 };
