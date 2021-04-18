@@ -71,8 +71,6 @@ void Display::changeFunctionPageTitle(QString s,int page){
         title->setText(s);
         title2->setText(s);
         title3->setText(s);
-        qDebug()<<"picturPageTitle got"<<title->text();
-        qDebug()<<"countDownTitle got"<<title2->text();
     }
 
 
@@ -143,8 +141,6 @@ int Display::changePower(bool leftOrRight){
 }
 
 void Display::toTheapyPage(){
-    qDebug()<<"previousPage page in to Theapy page is "<< previousPage;
-qDebug()<<"therapyMode in to Theapy page is "<< therapyMode;
     if(therapyMode == 1){
         goToPage(countDownPage);
     }
@@ -169,7 +165,6 @@ void Display::startCountUp(QString time){
 
 // this function is used spicifically for the left and right button
 void Display::backToPreviousPage(){
-    qDebug()<<"previousPage page is "<< previousPage;
     goToPage(previousPage);
 }
 
@@ -187,10 +182,7 @@ void Display::changeBettery(int bettery){
     QLabel *bettLabel = this->findChild<QLabel*>("batteryLabel");
     if(bettLabel!=nullptr){
         bettLabel->setText(QString().setNum(bettery)+QString("%"));
-    }else{
-        qDebug()<<"batteryLabel is an nullptr";
     }
-
 }
 
 void Display::clearTimer(){

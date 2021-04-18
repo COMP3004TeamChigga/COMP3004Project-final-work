@@ -1,5 +1,4 @@
 #include "buttons.h"
-#include "model.h"
 #include "observer.h"
 
 Buttons::Buttons(QWidget *widget):QPushButton(widget)
@@ -9,7 +8,7 @@ Buttons::Buttons(QWidget *widget):QPushButton(widget)
 }
 
 void Buttons:: onClick(){
-    //qDebug() << "this is cliked"<< type;
+
     notify();
 }
 

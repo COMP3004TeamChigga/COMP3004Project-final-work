@@ -12,7 +12,6 @@ SOURCES += \
     buttons.cpp \
     control.cpp \
     display.cpp \
-    electrodes.cpp \
     main.cpp \
     mainwindow.cpp \
     mylistwidgetitem.cpp \
@@ -24,7 +23,6 @@ HEADERS += \
     buttons.h \
     control.h \
     display.h \
-    electrodes.h \
     mainwindow.h \
     mylistwidgetitem.h \
     mytimer.h \

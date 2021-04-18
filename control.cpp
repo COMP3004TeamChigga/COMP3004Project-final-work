@@ -149,10 +149,7 @@ void Control::handleDirectionalButton(int id){
     if(id==rightButton||id == leftButton){
         display->goToPage(powerPage);
         powerlvl = display->changePower(id==rightButton);
-
-        // start a one time timer, return to the previous page after 1 secs of setting power
-            qDebug()<<"this timer is get started and is "<<singleShotTimer->isActive();
-            singleShotTimer->start(1000);
+        singleShotTimer->start(1000);
 
        }
 }
@@ -182,18 +179,16 @@ void Control::handleOkButton(){
 
 }
 void Control::handleElectrodes(){
-    qDebug()<<"the page in elec = "<<display->getCurrentPage();
+
     int page = display->getCurrentPage();
     if(page==placeOnYourSkinPage){
-        qDebug()<<"display->getCurrentPage()==placeOnYourSkinPag";
+
         onSkin = true;
         countDownTimer->startCountDown(600);
         display->toTheapyPage();
     }
     if(page == countDownPage
             || page == countUpPage){
-        qDebug()<<"display->getCurrentPage() == countDownPage display->getCurrentPage() == countUpPage"
-                    << (onSkin?"onskin":"not onskin");
         if(onSkin){
             onSkin= false;
             countDownTimer->pause();
