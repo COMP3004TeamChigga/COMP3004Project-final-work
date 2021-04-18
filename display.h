@@ -38,14 +38,15 @@ public:
     explicit Display(QWidget *parent = nullptr);
     int getSelection();
     int getCurrentPage();
+    int getTherapyMode();
     void goToPage(int page);
     int toNextPage();
     void toTheapyPage();
     int changePower(bool leftOrRight);
     int changeSelection(bool UpOrDown);
     void addHistory(QVector<therapy>);
-
     void clearTimer();
+
 
 
 public slots:
@@ -60,6 +61,7 @@ private:
     int currentSelection;
     int previousPage;
     int therapyMode;
+
 
 
 };

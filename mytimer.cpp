@@ -15,6 +15,7 @@ qint64 MyTimer::startCountDown(int sec){
     qtimer->start(1000);
     qElapsedTimer->start();
     secCount = sec;
+    timeAlreadyElapsed = 0;
     return sec;
 
 }

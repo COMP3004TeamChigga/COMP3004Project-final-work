@@ -7,7 +7,7 @@ Display::Display(QWidget *parent) : QStackedWidget(parent)
 {
     currentSelection = -1;
     previousPage = 0;
-    therapyMode = 0;
+
 }
 int Display::getSelection(){
     QListWidget* list = this->currentWidget()->findChild<QListWidget*>();
@@ -18,6 +18,10 @@ int Display::getSelection(){
 }
 int Display::getCurrentPage(){
     return this->currentIndex();
+}
+
+int Display::getTherapyMode(){
+    return therapyMode;
 }
 void Display::goToPage(int page){
     previousPage = this->getCurrentPage() == powerPage?previousPage:this->getCurrentPage();
@@ -141,6 +145,7 @@ int Display::changePower(bool leftOrRight){
 }
 
 void Display::toTheapyPage(){
+
     if(therapyMode == 1){
         goToPage(countDownPage);
     }

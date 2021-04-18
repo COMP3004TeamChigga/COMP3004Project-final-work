@@ -56,6 +56,7 @@ private:
 
 
     int previousPage;
+    int selection;
     float battery;
     int powerlvl;
     bool power;

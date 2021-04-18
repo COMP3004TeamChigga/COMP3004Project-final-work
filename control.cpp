@@ -19,6 +19,7 @@ Control::Control():Observer()
     battery = 100;
     powerlvl = 0;
     onSkin = false;
+    selection = 0;
 
     programVecor.append("Gyn. Pain");
     programVecor.append("Gynecology");
@@ -63,13 +64,15 @@ void Control::makeRecord(){
     t.date = formattedTime;
     t.duration = countDownTimer->getCurrentTimePassed();
     t.powerlvl = QString().setNum(powerlvl);
-    int page = display->getCurrentPage();
-    int selection = display->getSelection();
-    if(page == programList){
-        t.treatment = QString::fromStdString("Programed") + QString(",")+ QString::fromStdString(programVecor.at(selection));
+    int mode = display->getTherapyMode();
+    qDebug()<<selection<< "= this is the selection";
+    if(mode == 1){
+        t.treatment = QString::fromStdString("Programed") + QString(",")+
+                QString::fromStdString(programVecor.at(selection));
     }
-    if(page == frequencyList){
-        t.treatment = QString::fromStdString("Frequency")+ QString(",")+QString::fromStdString(frequencyVector.at(selection));
+    if(mode == 2){
+        t.treatment = QString::fromStdString("Frequency")+
+                QString(",")+QString::fromStdString(frequencyVector.at(selection));
 
     }
 
@@ -144,7 +147,7 @@ void Control::handleDirectionalButton(int id){
 
 
     if(id==upButton||id == downButton){
-        display->changeSelection(id == upButton);
+        selection = display->changeSelection(id == upButton);
     }
     if(id==rightButton||id == leftButton){
         display->goToPage(powerPage);
