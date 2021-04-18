@@ -2,7 +2,6 @@
 #define CONTROL_H
 
 #include <QObject>
-#include "model.h"
 #include <observer.h>
 #include "display.h"
 #include <QProgressBar>

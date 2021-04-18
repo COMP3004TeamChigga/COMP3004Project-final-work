@@ -13,10 +13,8 @@ SOURCES += \
     control.cpp \
     display.cpp \
     electrodes.cpp \
-    logger.cpp \
     main.cpp \
     mainwindow.cpp \
-    model.cpp \
     mylistwidgetitem.cpp \
     mytimer.cpp \
     observer.cpp \
@@ -27,9 +25,7 @@ HEADERS += \
     control.h \
     display.h \
     electrodes.h \
-    logger.h \
     mainwindow.h \
-    model.h \
     mylistwidgetitem.h \
     mytimer.h \
     observer.h \

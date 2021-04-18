@@ -136,6 +136,7 @@ void Control::handlePowerButton(){
         display->goToPage(powerOffScreen);
         historyVector.clear();
         display->addHistory(historyVector);
+        display->clearTimer();
 
     }
 }
